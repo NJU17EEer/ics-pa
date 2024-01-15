@@ -77,7 +77,7 @@ static void execute(uint64_t n) {
 #define NUMBERIC_FMT MUXDEF(CONFIG_TARGET_AM, "%", "%'") PRIu64
   Decode s;
 	MY_P0(Log("n (-1) is equal to " NUMBERIC_FMT, n));
-	//Log("n (-1) is equal to " NUMBERIC_FMT, n);
+	Log("n (-1) is equal to " NUMBERIC_FMT, n);
   for (;n > 0; n --) {
     exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;
