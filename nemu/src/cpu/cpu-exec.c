@@ -96,13 +96,14 @@ void assert_fail_msg() {
   statistic();
 }
 
+#define MY_P0(macro) MY_P(macro)
 #define MY_P(macro) printf("%s\n", #macro);
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
   g_print_step = (n < MAX_INST_TO_PRINT);
 	Log("n (-1) is equal to " NUMBERIC_FMT, n);
-	MY_P(Log("n (-1) is equal to " NUMBERIC_FMT, n));
+	MY_P0(Log("n (-1) is equal to " NUMBERIC_FMT, n));
   switch (nemu_state.state) {
     case NEMU_END: case NEMU_ABORT:
       printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
