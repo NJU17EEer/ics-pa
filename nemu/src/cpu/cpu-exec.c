@@ -71,8 +71,12 @@ static void exec_once(Decode *s, vaddr_t pc) {
 #endif
 }
 
+#define MY_P0(macro) MY_P(macro)
+#define MY_P(macro) printf("%s\n", #macro);
 static void execute(uint64_t n) {
   Decode s;
+	MY_P0(Log("n (-1) is equal to " NUMBERIC_FMT, n));
+	//Log("n (-1) is equal to " NUMBERIC_FMT, n);
   for (;n > 0; n --) {
     exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;
@@ -96,14 +100,9 @@ void assert_fail_msg() {
   statistic();
 }
 
-#define MY_P0(macro) MY_P(macro)
-#define MY_P(macro) printf("%s\n", #macro);
-
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
   g_print_step = (n < MAX_INST_TO_PRINT);
-	Log("n (-1) is equal to " NUMBERIC_FMT, n);
-	MY_P0(Log("n (-1) is equal to " NUMBERIC_FMT, n));
   switch (nemu_state.state) {
     case NEMU_END: case NEMU_ABORT:
       printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
