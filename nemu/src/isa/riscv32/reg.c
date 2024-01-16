@@ -30,7 +30,7 @@ void isa_reg_display(void) {
 
 	for (i = 0; i < row_num; i++) {
 		for (j = 0; j < col_num; j++) {
-			idx = i * row_num + j;
+			idx = i * col_num + j;
 			printf("%s\t: %x   ", reg_name(idx), gpr(idx));
 		}
 		printf("\n");
