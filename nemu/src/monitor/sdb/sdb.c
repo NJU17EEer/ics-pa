@@ -74,7 +74,7 @@ static int cmd_info(char *args) {
 	if (strcmp(args, "r") == 0) {
 		isa_reg_display();
 	} else {
-		printf("Unknown sub-command\n");
+		printf("Unknown sub-command [%s]\n", args);
 	}
 
 	return 0;
