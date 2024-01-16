@@ -70,7 +70,12 @@ static int cmd_si(char *args) {
 }
 
 static int cmd_info(char *args) {
-	isa_reg_display();
+
+	if (strcmp(args, "r") == 0) {
+		isa_reg_display();
+	} else {
+		printf("Unknown sub-command\n");
+	}
 
 	return 0;
 }
