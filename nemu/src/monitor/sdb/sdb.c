@@ -71,7 +71,9 @@ static int cmd_si(char *args) {
 
 static int cmd_info(char *args) {
 
-	if (strcmp(args, "r") == 0) {
+	if (args == NULL) {
+		printf("Sub-command [r] is required\n");
+	} else if (strcmp(args, "r") == 0) {
 		isa_reg_display();
 	} else {
 		printf("Unknown sub-command [%s]\n", args);
