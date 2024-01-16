@@ -61,10 +61,10 @@ static int cmd_si(char *args) {
 		read_ch_num = sscanf(args, "%d", &inst_exec_steps);
 		if (read_ch_num <= 0) {
 			printf("failed to extract data from string [%s]\n", args);
+		} else {
+			cpu_exec(inst_exec_steps);
 		}
 	}
-
-	cpu_exec(inst_exec_steps);
 
 	return 0;
 }
