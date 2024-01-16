@@ -55,11 +55,13 @@ static int cmd_q(char *args) {
 
 static int cmd_si(char *args) {
 	int read_ch_num;
-	int inst_exec_steps;
+	int inst_exec_steps = 1;	// default excute once
 
-	read_ch_num = sscanf(args, "%d", &inst_exec_steps);
-	if (read_ch_num <= 0) {
-		inst_exec_steps = 1;	// default
+	if (args != NULL) {
+		read_ch_num = sscanf(args, "%d", &inst_exec_steps);
+		if (read_ch_num <= 0) {
+			printf("failed to extract data from string [%s]\n", args);
+		}
 	}
 
 	cpu_exec(inst_exec_steps);
