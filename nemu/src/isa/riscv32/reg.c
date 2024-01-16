@@ -24,10 +24,16 @@ const char *regs[] = {
 };
 
 void isa_reg_display(void) {
-	int i;
+	int i, j;
+	int row_num = 8, col_num = 4;
+	int idx;
 
-	for (i = 0; i < 32; i++) {
-		printf("%s\t: %x\n", reg_name(i), gpr(i));
+	for (i = 0; i < row_num; i++) {
+		for (j = 0; j < col_num; j++) {
+			idx = i * row_num + j;
+			printf("%s\t: %x   ", reg_name(idx), gpr(idx));
+		}
+		printf("\n");
 	}	
 }
 
