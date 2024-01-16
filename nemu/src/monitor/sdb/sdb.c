@@ -62,7 +62,6 @@ static int cmd_si(char *args) {
 		inst_exec_steps = 1;	// default
 	}
 
-	printf("n = %d\n", inst_exec_steps);
 	cpu_exec(inst_exec_steps);
 
 	return 0;
