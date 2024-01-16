@@ -23,7 +23,12 @@ const char *regs[] = {
   "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
 
-void isa_reg_display() {
+void isa_reg_display(void) {
+	int i;
+
+	for (i = 0; i < 32; i++) {
+		printf("%s\t: %x\n", reg_name(i), gpr(i));
+	}	
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
