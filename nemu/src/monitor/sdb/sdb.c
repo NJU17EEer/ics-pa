@@ -83,6 +83,7 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_x(char *args) {
+	printf("Command x is executed\n");
 	return 0;
 }
 
