@@ -119,7 +119,7 @@ static int cmd_x(char *args) {
 		/* not 2 sub-commands attached */
 		printf("Usage: x N EXPR\n");
 	} else {
-		printf("N = %d, EXPR = %08x\n", bytes_num, st_addr);
+		printf("N = %d, EXPR = 0x%08x\n", bytes_num, st_addr);
 	}
 
 
