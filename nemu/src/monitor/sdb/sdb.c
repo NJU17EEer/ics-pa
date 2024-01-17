@@ -55,7 +55,8 @@ static int cmd_q(char *args) {
 
 static int cmd_si(char *args) {
 	int read_ch_num;
-	int inst_exec_steps = 1;	// default excute once
+	/* default excute once */
+	int inst_exec_steps = 1;	
 
 	if (args != NULL) {
 		read_ch_num = sscanf(args, "%d", &inst_exec_steps);
@@ -83,6 +84,42 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_x(char *args) {
+	char *parse_str = NULL;
+	/* delimeter between tokens should be blank */
+	const char *delim = " ";
+	char *token = NULL;
+	int token_num = 0;
+	int bytes_num;
+	uint32_t st_addr;
+
+	if (args != NULL) {
+		for (token_num = 0, parse_str = args; ;
+					token_num++, parse_str = NULL) {
+			
+			token = strtok(parse_str, delim);
+			if (token == NULL) {
+				break;
+			}
+
+			switch (token_num) {
+				case 0:	/* 1-th arguments is N */
+					sscanf(token, "%d", &bytes_num);
+					break;
+				case 1: /* 2-nd argument is EXPR */
+					sscanf(token, "%x", &st_addr);
+					break;
+				default:
+					/* TODO: more arguments support */
+			}
+		}
+	} 
+
+	if ((args == NULL) || (token_num != 2)) {
+		/* not 2 sub-commands attached */
+		printf("Usage: x N EXPR\n");
+	}
+	
+
 	printf("Command x is executed\n");
 	return 0;
 }
