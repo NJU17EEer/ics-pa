@@ -92,6 +92,7 @@ static int cmd_x(char *args) {
 	int bytes_num;
 	uint32_t st_addr;
 
+	/* arguments parser */
 	if (args != NULL) {
 		for (token_num = 0, parse_str = args; ;
 					token_num++, parse_str = NULL) {
@@ -117,10 +118,11 @@ static int cmd_x(char *args) {
 	if ((args == NULL) || (token_num != 2)) {
 		/* not 2 sub-commands attached */
 		printf("Usage: x N EXPR\n");
+	} else {
+		printf("N = %d, EXPR = %08x\n", bytes_num, st_addr);
 	}
-	
 
-	printf("Command x is executed\n");
+
 	return 0;
 }
 
