@@ -82,6 +82,9 @@ static int cmd_info(char *args) {
 	return 0;
 }
 
+static int cmd_x(char *args) {
+	return 0;
+}
 
 static int cmd_help(char *args);
 
@@ -95,6 +98,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 	{ "si", "Execute N instructions then stop. If N isn't specified after si, N = 1", cmd_si},
 	{"info", "r: print the state of registers", cmd_info},
+	{"x", "usage: x N EXPR, evaluate the EXPR as the start of memory address and print the sequential N bytes. For simplicity, the EXPR should be exactly a hexadecimal number", cmd_x},
 
   /* TODO: Add more commands */
 
