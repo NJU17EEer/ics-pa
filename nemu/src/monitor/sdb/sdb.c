@@ -17,6 +17,7 @@
 #include <cpu/cpu.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <memory/paddr.h>
 #include "sdb.h"
 
 static int is_batch_mode = false;
@@ -56,10 +57,10 @@ static int cmd_q(char *args) {
 static int cmd_si(char *args) {
 	int read_ch_num;
 	/* default excute once */
-	int inst_exec_steps = 1;	
+	uint64_t inst_exec_steps = 1;	
 
 	if (args != NULL) {
-		read_ch_num = sscanf(args, "%d", &inst_exec_steps);
+		read_ch_num = sscanf(args, "%" PRIx64, &inst_exec_steps);
 		if (read_ch_num <= 0) {
 			printf("Failed to extract integer value from string [%s]\n", args);
 			return 0;
@@ -84,13 +85,16 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_x(char *args) {
+	int i;
 	char *parse_str = NULL;
 	/* delimeter between tokens should be blank */
 	const char *delim = " ";
 	char *token = NULL;
 	int token_num = 0;
-	int bytes_num;
-	uint32_t st_addr;
+	int words_num;
+	paddr_t st_addr, trace_addr;
+	word_t read_word;
+	int bytes_in_word;
 
 	/* arguments parser */
 	if (args != NULL) {
@@ -104,7 +108,7 @@ static int cmd_x(char *args) {
 
 			switch (token_num) {
 				case 0:	/* 1-th arguments is N */
-					sscanf(token, "%d", &bytes_num);
+					sscanf(token, "%d", &words_num);
 					break;
 				case 1: /* 2-nd argument is EXPR */
 					sscanf(token, "%x", &st_addr);
@@ -119,9 +123,17 @@ static int cmd_x(char *args) {
 		/* not 2 sub-commands attached */
 		printf("Usage: x N EXPR\n");
 	} else {
-		printf("N = %d, EXPR = 0x%08x\n", bytes_num, st_addr);
+		printf("N = %d, EXPR = " FMT_PADDR "\n", words_num, st_addr);
 	}
 
+
+	bytes_in_word = MUXDEF(CONFIG_ISA64, 64, 32) / 4;
+	trace_addr = st_addr;
+	for (i = 0; i < words_num; i++) {
+		read_word = paddr_read(trace_addr, 1);
+		printf(FMT_PADDR ": " FMT_WORD "\n", trace_addr, read_word);
+		trace_addr += bytes_in_word;
+	}
 
 	return 0;
 }
@@ -138,7 +150,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 	{ "si", "Execute N instructions then stop. If N isn't specified after si, N = 1", cmd_si},
 	{"info", "r: print the state of registers", cmd_info},
-	{"x", "usage: x N EXPR, evaluate the EXPR as the start of memory address and print the sequential N bytes. For simplicity, the EXPR should be exactly a hexadecimal number", cmd_x},
+	{"x", "usage: x N EXPR, evaluate the EXPR as the start of memory address and print the sequential N 4-bytes. For simplicity, the EXPR should be exactly a hexadecimal number", cmd_x},
 
   /* TODO: Add more commands */
 
