@@ -130,7 +130,7 @@ static int cmd_x(char *args) {
 	bytes_in_word = MUXDEF(CONFIG_ISA64, 64, 32) / 4;
 	trace_addr = st_addr;
 	for (i = 0; i < words_num; i++) {
-		read_word = paddr_read(trace_addr, 1);
+		read_word = paddr_read(trace_addr, bytes_in_word);
 		printf(FMT_PADDR ": " FMT_WORD "\n", trace_addr, read_word);
 		trace_addr += bytes_in_word;
 	}
